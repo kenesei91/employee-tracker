@@ -132,6 +132,56 @@ function addDepartment() {
     });
 }
 
+function addEmployee() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Enter employee's first name",
+        name: "firstName"
+      },
+      {
+        type: "input",
+        message: "Enter employee's last name",
+        name: "lastName"
+      },
+      {
+        type: "input",
+        message: "Enter employee's job title",
+        name: "jobTitle"
+      },
+      {
+        type: "input",
+        message: "Enter employee's department",
+        name: "departmentName"
+      },
+      {
+        type: "input",
+        message: "Enter employee's salary",
+        name: "annualSalary"
+      },
+      {
+        type: "input",
+        message: "Enter employee's manager",
+        name: "managerName"
+      }
+    ])
+    .then(function(answer) {
+      const sql = `INSERT INTO employees (first_name, last_name, job_titles, department, salary, manager) VALUES (?, ?, ?, ?, ?, ?)`;
+      db.query(sql, [answer.firstName, answer.lastName, answer.jobTitle, answer.departmentName, answer.annualSalary, answer.managerName], (err, res) => {
+        if (err) throw err;
+      });
+
+      const sql2 = `SELECT * FROM employees`;
+      db.query(sql2, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        promptUser();
+      })
+    });
+}
+
+
 
 promptUser();
 
