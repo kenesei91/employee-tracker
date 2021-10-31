@@ -48,29 +48,30 @@ function promptUser() {
     }else if (answers.choices === "Add a Department") {
       addDepartment()
     }else if (answers.choices === "Add a Role") {
-      return inquirer
-      .prompt([
-        {
-          type: "input",
-          name: "newRole",
-          message: "Enter the role you would like to add ? (required)",
-          validate: newRoleInput => {
-            if (newRoleInput) {
-              return true; // no changes with comment out return true & false
-            }else {
-              console.log('Please enter a role!');
-              return false;
-            }
-          }
-        }
-      ])
-      .then((answer) => {
-        if (answer.newRole) {
-          console.log(answer.newRole);
-          addRole()
-          promptUser()
-        }
-      })
+      addRole()
+      // return inquirer
+      // .prompt([
+      //   {
+      //     type: "input",
+      //     name: "newRole",
+      //     message: "Enter the role you would like to add ? (required)",
+      //     validate: newRoleInput => {
+      //       if (newRoleInput) {
+      //         return true; // no changes with comment out return true & false
+      //       }else {
+      //         console.log('Please enter a role!');
+      //         return false;
+      //       }
+      //     }
+      //   }
+      // ])
+      // .then((answer) => {
+      //   if (answer.newRole) {
+      //     console.log(answer.newRole);
+      //     addRole()
+      //     promptUser()
+      //   }
+      // })
     }else if (answers.choices === "Add an Employee") {
       addEmployee()
     }else if (answers.choices === "Update an Employee Role") {
@@ -117,14 +118,65 @@ function viewAllDepartments() {
   }) 
 }
 
+// function addRole() {
+//   const sql = `INSERT INTO roles (employee_roles) VALUES (?)`;
+//   db.query(sql, , (err, res) => {
+//     if (err) throw err
+//     console.table(res)
+//     promptUser()
+//   }) 
+// }
+
 function addRole() {
-  const sql = `INSERT INTO roles (employee_roles) VALUES (?)`;
-  db.query(sql, (err, res) => {
-    if (err) throw err
-    console.table(res)
-    promptUser()
-  }) 
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What role would you like to add?",
+        name: "roleName"
+      }
+    ])
+    .then(function(answer) {
+      db.query(`INSERT INTO roles (employee_roles) VALUES (?)`, (answer.roleName), function(err, res) {
+        if (err) throw err;
+        //console.log(res);
+        //console.table(res);
+        //promptUser();
+      });
+
+      db.query(`SELECT * FROM roles`, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        promptUser();
+      })
+    });
 }
+
+function addDepartment() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What department would you like to add?",
+        name: "departmentName"
+      }
+    ])
+    .then(function(answer) {
+      db.query(`INSERT INTO departments (employee_departments) VALUES (?)`, (answer.departmentName), function(err, res) {
+        if (err) throw err;
+        //console.log(res);
+        //console.table(res);
+        //promptUser();
+      });
+
+      db.query(`SELECT * FROM departments`, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        promptUser();
+      })
+    });
+}
+
 
 promptUser();
 
