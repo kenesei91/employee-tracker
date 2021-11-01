@@ -181,11 +181,35 @@ function addEmployee() {
     });
 }
 
-function addEmployee () {
-  
+function updateEmployeeRole () {
+  inquirer
+  .prompt([
+    {
+      type: "input",
+      message: 'Enter the first name of the employee to update?',
+      name: "employeeUpdate"
+    },
+    {
+      type: "input",
+      message: 'Enter the newly assifned role for this employee?',
+      name: "employeeRoleUpdate"
+    }
+  ])
+  .then((answer) => {
+    const sql = `UPDATE employees SET job_titles = ? WHERE first_name = ?`;
+
+    db.query(sql, [answer.employeeRoleUpdate, answer.employeeUpdate], (err, res) => {
+      if (err) throw err;
+    })
+
+    const sql2 = `SELECT * FROM employees`;
+    db.query(sql2, (err, res) => {
+      if (err) throw err;
+      console.table(res);
+      promptUser();
+    })
+  })
 }
-
-
 
 promptUser();
 

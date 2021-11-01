@@ -42,12 +42,6 @@ This application allows employers to view and manage the departments, roles, and
 - Installing npm packages
 - promises
 
-## Project Visual
-
-- Showing the originial state of the app
-![Project-Picture](./public/assets/images/screenshot_1.png)
-
-
 ## Github pages and links
 
 **This project has been deployed to GitHub Pages.** 
