@@ -181,6 +181,10 @@ function addEmployee() {
     });
 }
 
+function addEmployee () {
+  
+}
+
 
 
 promptUser();
